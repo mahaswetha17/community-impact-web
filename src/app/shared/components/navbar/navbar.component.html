@@ -1,0 +1,103 @@
+<header class="top-navbar">
+  <div class="navbar-left">
+    <button class="menu-toggle" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="greeting">
+      <span class="greeting-text">Welcome back, <strong>{{ userName }}</strong></span>
+    </div>
+  </div>
+
+  <div class="navbar-right">
+    <!-- Quick Settings -->
+    <button mat-icon-button class="nav-icon-btn" matTooltip="Quick Settings" [matMenuTriggerFor]="settingsMenu">
+      <mat-icon>tune</mat-icon>
+    </button>
+    <mat-menu #settingsMenu="matMenu" xPosition="before" class="settings-menu">
+      <div class="menu-header">
+        <p class="menu-name" style="margin:0;padding:8px 16px;font-weight:600">Quick Settings</p>
+      </div>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="toggleDarkMode()">
+        <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        <span>{{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>language</mat-icon><span>Language</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>security</mat-icon><span>Privacy</span>
+      </button>
+    </mat-menu>
+
+    <!-- Live Notifications Bell -->
+    <button mat-icon-button class="nav-icon-btn" matTooltip="Notifications" [matMenuTriggerFor]="notificationsMenu">
+      <mat-icon>notifications_none</mat-icon>
+      <span class="notif-badge" *ngIf="notifCount > 0">{{ notifCount }}</span>
+    </button>
+    <mat-menu #notificationsMenu="matMenu" xPosition="before" class="notifications-menu">
+      <div class="menu-header notif-header-row" style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;">
+        <p style="margin:0;font-weight:700;font-size:14px">Notifications</p>
+        <button mat-button style="font-size:11px;color:#388e3c;min-width:0;padding:0 4px" (click)="markAllRead(); $event.stopPropagation()" *ngIf="notifCount > 0">
+          Mark all read
+        </button>
+      </div>
+      <mat-divider></mat-divider>
+
+      <!-- Real notifications -->
+      <ng-container *ngIf="notifications.length > 0; else noNotifs">
+        <button mat-menu-item *ngFor="let n of notifications" class="notif-item" [class.unread]="!n.read"
+          (click)="notifService.markRead(n.recipientEmail, n.id)">
+          <mat-icon [style.color]="getNotifColor(n.type)">{{ getNotifIcon(n.type) }}</mat-icon>
+          <span class="notif-text">
+            <strong>{{ n.title }}</strong><br>
+            <small>{{ n.message | slice:0:60 }}...</small>
+          </span>
+        </button>
+      </ng-container>
+      <ng-template #noNotifs>
+        <button mat-menu-item disabled>
+          <mat-icon>notifications_off</mat-icon>
+          <span>No new notifications</span>
+        </button>
+      </ng-template>
+
+      <mat-divider></mat-divider>
+      <button mat-menu-item routerLink="/victim/reports" style="text-align:center;color:#388e3c">
+        <span>View All Activity</span>
+      </button>
+    </mat-menu>
+
+    <!-- Profile Dropdown -->
+    <button mat-button [matMenuTriggerFor]="profileMenu" class="profile-btn">
+      <div class="avatar-wrapper">
+        <div class="avatar"><mat-icon>person</mat-icon></div>
+        <div class="user-info">
+          <span class="user-name">{{ userName }}</span>
+          <span class="user-role">{{ roleLabel }}</span>
+        </div>
+        <mat-icon class="chevron">expand_more</mat-icon>
+      </div>
+    </button>
+    <mat-menu #profileMenu="matMenu" xPosition="before" class="profile-menu">
+      <div class="menu-header">
+        <div class="menu-avatar"><mat-icon>person</mat-icon></div>
+        <div>
+          <p class="menu-name">{{ userName }}</p>
+          <p class="menu-role">{{ roleLabel }}</p>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <button mat-menu-item routerLink="/profile">
+        <mat-icon>manage_accounts</mat-icon><span>My Profile</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon><span>Settings</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="onLogout()" class="logout-menu-item">
+        <mat-icon>logout</mat-icon><span>Sign Out</span>
+      </button>
+    </mat-menu>
+  </div>
+</header>

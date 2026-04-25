@@ -1,0 +1,102 @@
+
+<aside class="sidebar">
+
+  <!-- Logo -->
+
+  <div class="sidebar-logo">
+
+    <div class="logo-icon">
+
+      <mat-icon>public</mat-icon>
+
+    </div>
+
+    <div class="logo-text">
+
+      <span class="logo-name">Community</span>
+
+      <span class="logo-sub">Impact</span>
+
+    </div>
+
+  </div>
+
+  <!-- User Role Badge -->
+
+  <div class="role-badge">
+
+    <mat-icon class="role-icon">
+
+      {{ role === 'ngo' ? 'account_balance' : role === 'volunteer' ? 'volunteer_activism' : 'warning' }}
+
+    </mat-icon>
+
+    <span class="role-label">{{ roleLabel }}</span>
+
+  </div>
+
+  <!-- Navigation -->
+
+  <nav class="sidebar-nav">
+
+    <div class="nav-section-label">MAIN MENU</div>
+
+    <ul>
+
+      <li *ngFor="let item of navItems" [class.active]="isActive(item.route)">
+
+        <a [routerLink]="item.route" class="nav-item">
+
+          <div class="nav-icon">
+
+            <mat-icon>{{ item.icon }}</mat-icon>
+
+          </div>
+
+          <span class="nav-label">{{ item.label }}</span>
+
+          <div class="active-indicator" *ngIf="isActive(item.route)"></div>
+
+        </a>
+
+      </li>
+
+    </ul>
+
+  </nav>
+
+  <!-- Spacer -->
+
+  <div class="sidebar-spacer"></div>
+
+  <!-- Bottom Actions -->
+
+  <div class="sidebar-bottom">
+
+    <a routerLink="/profile" class="nav-item profile-link" [class.active]="isActive('/profile')">
+
+      <div class="nav-icon">
+
+        <mat-icon>person_outline</mat-icon>
+
+      </div>
+
+      <span class="nav-label">My Profile</span>
+
+    </a>
+
+    <button class="nav-item logout-btn" (click)="onLogout()">
+
+      <div class="nav-icon">
+
+        <mat-icon>logout</mat-icon>
+
+      </div>
+
+      <span class="nav-label">Sign Out</span>
+
+    </button>
+
+  </div>
+
+</aside>

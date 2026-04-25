@@ -1,0 +1,292 @@
+
+<div class="app-shell">
+
+  <app-sidebar></app-sidebar>
+
+  <div class="main-panel">
+
+    <app-navbar></app-navbar>
+
+    <div class="page-content">
+
+      <div class="page-heading">
+
+        <div>
+
+          <h1 class="page-title">NGO Operations <span>Dashboard</span></h1>
+
+          <p class="page-subtitle">Monitor incidents, manage volunteers, and track crises in real time.</p>
+
+        </div>
+
+        <div class="heading-actions">
+
+          <span class="live-badge"><span class="live-dot"></span> Live Updates</span>
+
+          <span class="vol-summary">
+
+            <mat-icon>people</mat-icon>
+
+            {{ volunteers.length }} Volunteers ({{ availableVolunteers.length }} available)
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- Stats -->
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div class="stat-icon active-icon"><mat-icon>report_problem</mat-icon></div>
+
+          <div class="stat-value">{{ activeCount }}</div>
+
+          <div class="stat-label">Active Crises</div>
+
+          <div class="stat-trend"><mat-icon>trending_up</mat-icon> Real-time</div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon assigned-icon"><mat-icon>assignment_turned_in</mat-icon></div>
+
+          <div class="stat-value">{{ assignedCount }}</div>
+
+          <div class="stat-label">Assigned</div>
+
+          <div class="stat-trend"><mat-icon>people</mat-icon> Volunteers</div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon critical-icon"><mat-icon>priority_high</mat-icon></div>
+
+          <div class="stat-value critical-val">{{ criticalCount }}</div>
+
+          <div class="stat-label">Critical</div>
+
+          <div class="stat-trend danger"><mat-icon>warning</mat-icon> Urgent</div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon resolved-icon"><mat-icon>check_circle</mat-icon></div>
+
+          <div class="stat-value resolved-val">{{ resolvedCount }}</div>
+
+          <div class="stat-label">Resolved</div>
+
+          <div class="stat-trend success"><mat-icon>thumb_up</mat-icon> Today</div>
+
+        </div>
+
+      </div>
+
+      <!-- Live Map -->
+
+      <div class="section-card">
+
+        <div class="section-header">
+
+          <div class="section-title-row">
+
+            <mat-icon class="section-icon">map</mat-icon>
+
+            <h2>Live Incident Map</h2>
+
+          </div>
+
+          <span class="live-badge"><span class="live-dot"></span> Live</span>
+
+        </div>
+
+        <div class="map-wrapper">
+
+          <google-map height="380px" width="100%" [center]="mapCenter" [zoom]="zoom" [options]="mapOptions">
+
+            <map-marker *ngFor="let incident of incidents"
+
+              [position]="{lat: incident.latitude, lng: incident.longitude}"
+
+              [title]="incident.title"
+
+              [options]="getMarkerOptions(incident.urgency)">
+
+            </map-marker>
+
+          </google-map>
+
+        </div>
+
+      </div>
+
+      <!-- Incidents List -->
+
+      <div class="section-card">
+
+        <div class="section-header">
+
+          <div class="section-title-row">
+
+            <mat-icon class="section-icon">list_alt</mat-icon>
+
+            <h2>Recent Incident Reports</h2>
+
+          </div>
+
+          <span class="badge-count">{{ incidents.length }} Reports</span>
+
+        </div>
+
+        <div class="reports-grid" *ngIf="incidents.length > 0; else noIncidents">
+
+          <div class="incident-card" *ngFor="let incident of incidents">
+
+            <div class="card-top-row">
+
+              <span class="badge" [style.background-color]="getUrgencyColor(incident.urgency)">{{ incident.urgency }}</span>
+
+              <span class="incident-type-chip"><mat-icon>category</mat-icon>{{ incident.type }}</span>
+
+              <span class="assigned-to" *ngIf="incident.status === 'assigned' && incident['volunteerName']">
+
+                <mat-icon>person</mat-icon> {{ incident['volunteerName'] }}
+
+              </span>
+
+            </div>
+
+            <h3>{{ incident.title }}</h3>
+
+            <p>{{ incident.description }}</p>
+
+            <div class="card-bottom">
+
+              <div class="card-btn-group">
+
+                <!-- Manual assign: opens volunteer picker -->
+
+                <button mat-raised-button class="btn-primary assign-btn"
+
+                  (click)="openVolunteerPicker(incident)"
+
+                  [disabled]="incident.status === 'assigned' || incident.status === 'completed'">
+
+                  <mat-icon>{{ (incident.status === 'assigned' || incident.status === 'completed') ? 'check_circle' : 'person_add' }}</mat-icon>
+
+                  {{ incident.status === 'assigned' ? 'Assigned' : incident.status === 'completed' ? 'Resolved' : 'Assign Volunteer' }}
+
+                </button>
+
+                <!-- AI Auto-assign -->
+
+                <button mat-stroked-button class="auto-btn"
+
+                  *ngIf="incident.status !== 'assigned' && incident.status !== 'completed'"
+
+                  (click)="autoAssign(incident)"
+
+                  matTooltip="Let AI pick the best volunteer">
+
+                  <mat-icon>auto_fix_high</mat-icon> AI Pick
+
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <ng-template #noIncidents>
+
+          <div class="empty-state">
+
+            <mat-icon>verified_user</mat-icon>
+
+            <h3>All Clear!</h3>
+
+            <p>No active incidents at the moment.</p>
+
+          </div>
+
+        </ng-template>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ─── Volunteer Picker Modal ─── -->
+
+<div class="modal-overlay" *ngIf="showVolunteerPicker" (click)="closeVolunteerPicker()">
+
+  <div class="assign-modal" (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+
+      <div>
+
+        <h3>Assign Volunteer</h3>
+
+        <p>Pick a volunteer for: <strong>{{ selectedIncident?.title }}</strong></p>
+
+      </div>
+
+      <button mat-icon-button (click)="closeVolunteerPicker()"><mat-icon>close</mat-icon></button>
+
+    </div>
+
+    <div class="vol-pick-list" *ngIf="availableVolunteers.length > 0; else noVols">
+
+      <div class="vol-pick-item" *ngFor="let vol of availableVolunteers" (click)="pickVolunteer(vol)">
+
+        <div class="pick-avatar"><mat-icon>person</mat-icon></div>
+
+        <div class="pick-info">
+
+          <strong>{{ vol.displayName }}</strong>
+
+          <span>{{ vol.email }}</span>
+
+          <span *ngIf="vol.location"><mat-icon>location_on</mat-icon> {{ vol.location }}</span>
+
+        </div>
+
+        <div class="pick-status available">Available</div>
+
+        <mat-icon class="pick-arrow">chevron_right</mat-icon>
+
+      </div>
+
+    </div>
+
+    <ng-template #noVols>
+
+      <div class="empty-state" style="padding:40px">
+
+        <mat-icon>people_outline</mat-icon>
+
+        <h3>No Available Volunteers</h3>
+
+        <p>All volunteers are currently on missions or none have registered yet.</p>
+
+      </div>
+
+    </ng-template>
+
+  </div>
+
+</div>

@@ -1,0 +1,488 @@
+
+:host {
+
+  display: block;
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  height: 100vh;
+
+  width: 265px;
+
+  z-index: 100;
+
+}
+
+.sidebar {
+
+  width: 265px;
+
+  height: 100vh;
+
+  background: linear-gradient(160deg, #1b5e20 0%, #2e7d32 40%, #388e3c 75%, #2e7d32 100%);
+
+  display: flex;
+
+  flex-direction: column;
+
+  padding: 0;
+
+  position: relative;
+
+  overflow: hidden;
+
+  box-shadow: 4px 0 30px rgba(27, 94, 32, 0.35);
+
+  // Glossy sheen overlay
+
+  &::before {
+
+    content: '';
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    right: 0;
+
+    height: 45%;
+
+    background: linear-gradient(
+
+      180deg,
+
+      rgba(255, 255, 255, 0.12) 0%,
+
+      rgba(255, 255, 255, 0.04) 50%,
+
+      transparent 100%
+
+    );
+
+    pointer-events: none;
+
+    z-index: 1;
+
+  }
+
+  // Decorative circles
+
+  &::after {
+
+    content: '';
+
+    position: absolute;
+
+    bottom: -80px;
+
+    right: -80px;
+
+    width: 250px;
+
+    height: 250px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.04);
+
+    pointer-events: none;
+
+  }
+
+}
+
+// ─── Logo ────────────────────────────────────────────────
+
+.sidebar-logo {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 28px 24px 20px;
+
+  position: relative;
+
+  z-index: 2;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  margin-bottom: 8px;
+
+  .logo-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    background: rgba(255, 255, 255, 0.2);
+
+    backdrop-filter: blur(10px);
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    flex-shrink: 0;
+
+    mat-icon {
+
+      color: white;
+
+      font-size: 22px;
+
+      height: 22px;
+
+      width: 22px;
+
+    }
+
+  }
+
+  .logo-text {
+
+    display: flex;
+
+    flex-direction: column;
+
+    line-height: 1.1;
+
+    .logo-name {
+
+      font-size: 17px;
+
+      font-weight: 800;
+
+      color: white;
+
+      letter-spacing: 0.01em;
+
+    }
+
+    .logo-sub {
+
+      font-size: 12px;
+
+      font-weight: 500;
+
+      color: rgba(255, 255, 255, 0.65);
+
+      letter-spacing: 0.06em;
+
+      text-transform: uppercase;
+
+    }
+
+  }
+
+}
+
+// ─── Role Badge ───────────────────────────────────────────
+
+.role-badge {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 8px 16px 20px;
+
+  padding: 10px 14px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  backdrop-filter: blur(8px);
+
+  border-radius: 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  position: relative;
+
+  z-index: 2;
+
+  .role-icon {
+
+    color: rgba(255, 255, 255, 0.85);
+
+    font-size: 18px;
+
+    height: 18px;
+
+    width: 18px;
+
+    flex-shrink: 0;
+
+  }
+
+  .role-label {
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: rgba(255, 255, 255, 0.9);
+
+    letter-spacing: 0.02em;
+
+  }
+
+}
+
+// ─── Navigation ───────────────────────────────────────────
+
+.sidebar-nav {
+
+  flex: 1;
+
+  padding: 0 12px;
+
+  position: relative;
+
+  z-index: 2;
+
+  .nav-section-label {
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    color: rgba(255, 255, 255, 0.4);
+
+    padding: 0 12px 10px;
+
+    text-transform: uppercase;
+
+  }
+
+  ul {
+
+    list-style: none;
+
+    padding: 0;
+
+    margin: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+  }
+
+  li {
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    transition: all 0.2s ease;
+
+    &.active {
+
+      background: rgba(255, 255, 255, 0.18);
+
+      backdrop-filter: blur(10px);
+
+      .nav-item {
+
+        color: white;
+
+        .nav-icon {
+
+          background: rgba(255, 255, 255, 0.2);
+
+          mat-icon { color: white; }
+
+        }
+
+        .nav-label { font-weight: 700; }
+
+      }
+
+    }
+
+    &:not(.active):hover {
+
+      background: rgba(255, 255, 255, 0.08);
+
+    }
+
+  }
+
+}
+
+.nav-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 11px 12px;
+
+  text-decoration: none;
+
+  color: rgba(255, 255, 255, 0.75);
+
+  transition: all 0.2s ease;
+
+  cursor: pointer;
+
+  width: 100%;
+
+  background: none;
+
+  border: none;
+
+  font-family: 'Poppins', sans-serif;
+
+  position: relative;
+
+  .nav-icon {
+
+    width: 36px;
+
+    height: 36px;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: all 0.2s ease;
+
+    flex-shrink: 0;
+
+    mat-icon {
+
+      font-size: 19px;
+
+      height: 19px;
+
+      width: 19px;
+
+      color: rgba(255, 255, 255, 0.75);
+
+    }
+
+  }
+
+  .nav-label {
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.01em;
+
+    white-space: nowrap;
+
+  }
+
+  .active-indicator {
+
+    position: absolute;
+
+    right: 8px;
+
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #a5d6a7;
+
+    box-shadow: 0 0 6px rgba(165, 214, 167, 0.6);
+
+  }
+
+}
+
+// ─── Sidebar Spacer ───────────────────────────────────────
+
+.sidebar-spacer {
+
+  flex: 1;
+
+}
+
+// ─── Bottom Section ───────────────────────────────────────
+
+.sidebar-bottom {
+
+  padding: 12px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2px;
+
+  margin-bottom: 8px;
+
+  .profile-link {
+
+    border-radius: 12px;
+
+    &.active {
+
+      background: rgba(255, 255, 255, 0.18);
+
+    }
+
+    &:hover { background: rgba(255, 255, 255, 0.08); }
+
+  }
+
+  .logout-btn {
+
+    border-radius: 12px;
+
+    text-align: left;
+
+    
+
+    &:hover {
+
+      background: rgba(244, 67, 54, 0.2);
+
+      .nav-label, mat-icon { color: #ff8a80; }
+
+    }
+
+  }
+
+}

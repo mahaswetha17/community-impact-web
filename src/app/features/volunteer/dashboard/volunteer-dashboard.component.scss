@@ -1,0 +1,354 @@
+
+.page-heading {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  margin-bottom: 28px;
+
+}
+
+// ─── Active Mission Banner ────────────────────────────────
+
+.mission-banner {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+
+  background: linear-gradient(135deg, #fff8f0, #fff3e0);
+
+  border: 1.5px solid #ffcc80;
+
+  border-left: 5px solid #f57c00;
+
+  border-radius: 18px;
+
+  padding: 24px;
+
+  margin-bottom: 28px;
+
+  box-shadow: 0 4px 16px rgba(245, 124, 0, 0.1);
+
+  .mission-icon {
+
+    width: 56px;
+
+    height: 56px;
+
+    border-radius: 16px;
+
+    background: linear-gradient(135deg, #ffa726, #e65100);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    box-shadow: 0 4px 12px rgba(245, 124, 0, 0.3);
+
+    mat-icon {
+
+      font-size: 28px;
+
+      height: 28px;
+
+      width: 28px;
+
+      color: white;
+
+    }
+
+  }
+
+  .mission-info {
+
+    flex: 1;
+
+    h3 {
+
+      font-size: 16px;
+
+      font-weight: 700;
+
+      color: #bf360c;
+
+      margin-bottom: 6px;
+
+    }
+
+    p {
+
+      font-size: 13px;
+
+      color: #6d4c41;
+
+      margin-bottom: 10px;
+
+      line-height: 1.5;
+
+    }
+
+    .mission-meta {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      .mission-type {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 4px;
+
+        font-size: 12px;
+
+        font-weight: 600;
+
+        color: #8d6e63;
+
+        mat-icon {
+
+          font-size: 14px;
+
+          height: 14px;
+
+          width: 14px;
+
+        }
+
+      }
+
+    }
+
+  }
+
+  .mission-actions {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    flex-shrink: 0;
+
+    .directions-btn {
+
+      height: 40px !important;
+
+      font-size: 13px !important;
+
+      border-color: #f57c00 !important;
+
+      color: #e65100 !important;
+
+    }
+
+    .served-btn {
+
+      height: 40px !important;
+
+      font-size: 13px !important;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 6px;
+
+    }
+
+  }
+
+}
+
+// ─── No Mission Card ──────────────────────────────────────
+
+.no-mission-card {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+
+  background: #f0fdf4;
+
+  border: 1.5px solid rgba(76, 175, 80, 0.25);
+
+  border-radius: 18px;
+
+  padding: 24px;
+
+  margin-bottom: 28px;
+
+  .no-mission-icon {
+
+    width: 56px;
+
+    height: 56px;
+
+    border-radius: 16px;
+
+    background: linear-gradient(135deg, #66bb6a, #2e7d32);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    mat-icon {
+
+      font-size: 28px;
+
+      height: 28px;
+
+      width: 28px;
+
+      color: white;
+
+    }
+
+  }
+
+  h3 {
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #1b5e20;
+
+    margin-bottom: 4px;
+
+  }
+
+  p {
+
+    font-size: 13px;
+
+    color: #4a6a4a;
+
+    margin: 0;
+
+  }
+
+}
+
+// ─── Dashboard Grid ───────────────────────────────────────
+
+.dashboard-grid {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 24px;
+
+  @media (max-width: 1024px) {
+
+    grid-template-columns: 1fr;
+
+  }
+
+}
+
+.section-card {
+
+  background: white;
+
+  border-radius: 20px;
+
+  padding: 24px;
+
+  border: 1px solid rgba(46, 125, 50, 0.08);
+
+  box-shadow: 0 2px 12px rgba(46, 125, 50, 0.06);
+
+}
+
+.section-header {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 18px;
+
+}
+
+.section-title-row {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  .section-icon {
+
+    font-size: 22px;
+
+    height: 22px;
+
+    width: 22px;
+
+    color: #2e7d32;
+
+  }
+
+  h2 {
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    color: #1a2a1a;
+
+    margin: 0;
+
+  }
+
+}
+
+.map-wrapper {
+
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  border: 2px solid rgba(46, 125, 50, 0.1);
+
+}
+
+// Report card removes inner padding since app-report-incident has its own
+
+.report-card {
+
+  padding: 0 !important;
+
+  background: transparent !important;
+
+  border: none !important;
+
+  box-shadow: none !important;
+
+}

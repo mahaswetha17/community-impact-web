@@ -1,0 +1,594 @@
+
+<div class="app-shell">
+
+  <app-sidebar></app-sidebar>
+
+  <div class="main-panel">
+
+    <app-navbar></app-navbar>
+
+    <div class="page-content">
+
+      <div class="page-heading">
+
+        <div>
+
+          <h1 class="page-title">My <span>Profile</span></h1>
+
+          <p class="page-subtitle">View and manage your account information.</p>
+
+        </div>
+
+      </div>
+
+      <div class="profile-layout">
+
+        <!-- ─── Left Column ─── -->
+
+        <div class="profile-left">
+
+          <!-- Identity Card -->
+
+          <div class="profile-identity-card">
+
+            <div class="profile-avatar-wrap">
+
+              <div class="profile-avatar">
+
+                <img *ngIf="avatarUrl" [src]="avatarUrl" alt="Profile Photo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+
+                <mat-icon *ngIf="!avatarUrl">person</mat-icon>
+
+              </div>
+
+              <input type="file" #photoInput hidden accept="image/*" (change)="onPhotoSelected($event)">
+
+              <button mat-mini-fab class="avatar-edit-btn" matTooltip="Change Photo" (click)="photoInput.click()">
+
+                <mat-icon>camera_alt</mat-icon>
+
+              </button>
+
+            </div>
+
+            <h2 class="profile-name">{{ profileData.displayName || 'User' }}</h2>
+
+            <p class="profile-role-label">
+
+              <mat-icon>badge</mat-icon> {{ roleLabel }}
+
+            </p>
+
+            <div class="profile-meta-pills">
+
+              <span class="meta-pill">
+
+                <mat-icon>location_on</mat-icon> {{ profileData.location || 'Location not set' }}
+
+              </span>
+
+              <span class="meta-pill">
+
+                <mat-icon>alternate_email</mat-icon> {{ profileData.email }}
+
+              </span>
+
+            </div>
+
+            <div class="profile-stats-row">
+
+              <div class="pstat">
+
+                <span class="pstat-val">{{ profileData.reportsCount }}</span>
+
+                <span class="pstat-label">Reports</span>
+
+              </div>
+
+              <div class="pstat-divider"></div>
+
+              <div class="pstat">
+
+                <span class="pstat-val">{{ profileData.missionsCount }}</span>
+
+                <span class="pstat-label">Missions</span>
+
+              </div>
+
+              <div class="pstat-divider"></div>
+
+              <div class="pstat">
+
+                <span class="pstat-val">{{ profileData.impactScore }}</span>
+
+                <span class="pstat-label">Impact</span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Quick Actions Card -->
+
+          <div class="quick-actions-card">
+
+            <h3>Quick Actions</h3>
+
+            <div class="quick-action-list">
+
+              <button class="qa-btn" (click)="togglePasswordForm()">
+
+                <div class="qa-icon-wrap"><mat-icon>lock_reset</mat-icon></div>
+
+                <span>Change Password</span>
+
+                <mat-icon class="qa-arrow" [class.rotated]="showPasswordForm">expand_more</mat-icon>
+
+              </button>
+
+              <!-- Inline Password Form -->
+
+              <div class="inline-panel" *ngIf="showPasswordForm">
+
+                <mat-form-field appearance="outline" class="panel-field">
+
+                  <mat-label>Current Password</mat-label>
+
+                  <input matInput type="password" [(ngModel)]="currentPassword">
+
+                  <mat-icon matSuffix>lock</mat-icon>
+
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="panel-field">
+
+                  <mat-label>New Password</mat-label>
+
+                  <input matInput type="password" [(ngModel)]="newPassword">
+
+                  <mat-icon matSuffix>lock_open</mat-icon>
+
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="panel-field">
+
+                  <mat-label>Confirm New Password</mat-label>
+
+                  <input matInput type="password" [(ngModel)]="confirmNewPassword">
+
+                  <mat-icon matSuffix>lock_open</mat-icon>
+
+                </mat-form-field>
+
+                <div class="panel-actions">
+
+                  <button mat-button (click)="togglePasswordForm()" [disabled]="isChangingPassword">Cancel</button>
+
+                  <button mat-raised-button class="btn-primary" (click)="changePassword()" [disabled]="isChangingPassword">
+                    {{ isChangingPassword ? 'Updating...' : 'Update Password' }}
+                  </button>
+
+                </div>
+
+              </div>
+
+              <button class="qa-btn" (click)="toggleNotifPanel()">
+
+                <div class="qa-icon-wrap"><mat-icon>notifications</mat-icon></div>
+
+                <span>Notification Settings</span>
+
+                <mat-icon class="qa-arrow" [class.rotated]="showNotifPanel">expand_more</mat-icon>
+
+              </button>
+
+              <!-- Inline Notification Panel -->
+
+              <div class="inline-panel" *ngIf="showNotifPanel">
+
+                <div class="toggle-row" *ngFor="let key of ['emailAlerts','smsAlerts','incidentUpdates','weeklyReport']">
+
+                  <label class="toggle-label">
+
+                    {{ key === 'emailAlerts' ? 'Email Alerts' : key === 'smsAlerts' ? 'SMS Alerts' : key === 'incidentUpdates' ? 'Incident Updates' : 'Weekly Report' }}
+
+                  </label>
+
+                  <label class="ci-toggle">
+
+                    <input type="checkbox" [(ngModel)]="notifSettings[key]">
+
+                    <span class="slider"></span>
+
+                  </label>
+
+                </div>
+
+                <div class="panel-actions">
+
+                  <button mat-button (click)="toggleNotifPanel()">Cancel</button>
+
+                  <button mat-raised-button class="btn-primary" (click)="saveNotifSettings()">Save Preferences</button>
+
+                </div>
+
+              </div>
+
+              <button class="qa-btn" (click)="togglePrivacyPanel()">
+
+                <div class="qa-icon-wrap"><mat-icon>privacy_tip</mat-icon></div>
+
+                <span>Privacy Settings</span>
+
+                <mat-icon class="qa-arrow" [class.rotated]="showPrivacyPanel">expand_more</mat-icon>
+
+              </button>
+
+              <!-- Inline Privacy Panel -->
+
+              <div class="inline-panel" *ngIf="showPrivacyPanel">
+
+                <div class="toggle-row" *ngFor="let key of ['showLocation','showContact','allowDataSharing']">
+
+                  <label class="toggle-label">
+
+                    {{ key === 'showLocation' ? 'Show Location on Profile' : key === 'showContact' ? 'Show Contact Info' : 'Allow Data Sharing for AI' }}
+
+                  </label>
+
+                  <label class="ci-toggle">
+
+                    <input type="checkbox" [(ngModel)]="privacySettings[key]">
+
+                    <span class="slider"></span>
+
+                  </label>
+
+                </div>
+
+                <div class="panel-actions">
+
+                  <button mat-button (click)="togglePrivacyPanel()">Cancel</button>
+
+                  <button mat-raised-button class="btn-primary" (click)="savePrivacySettings()">Save Privacy</button>
+
+                </div>
+
+              </div>
+
+              <button class="qa-btn danger" (click)="onSignOut()">
+
+                <div class="qa-icon-wrap danger"><mat-icon>logout</mat-icon></div>
+
+                <span>Sign Out</span>
+
+                <mat-icon class="qa-arrow">chevron_right</mat-icon>
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ─── Right Column ─── -->
+
+        <div class="profile-right">
+
+          <!-- Tab Bar -->
+
+          <div class="tab-bar">
+
+            <button class="tab-btn" [class.active]="activeTab==='general'" (click)="activeTab='general'">
+
+              <mat-icon>person</mat-icon> General
+
+            </button>
+
+            <button class="tab-btn" [class.active]="activeTab==='contact'" (click)="activeTab='contact'">
+
+              <mat-icon>contacts</mat-icon> Contact
+
+            </button>
+
+            <button class="tab-btn" [class.active]="activeTab==='activity'" (click)="activeTab='activity'">
+
+              <mat-icon>history</mat-icon> Activity
+
+            </button>
+
+          </div>
+
+          <!-- GENERAL TAB -->
+
+          <div class="tab-content" *ngIf="activeTab==='general'">
+
+            <div class="info-section">
+
+              <h3 class="info-section-title"><mat-icon>info</mat-icon> Personal Information</h3>
+
+              <div class="info-grid">
+
+                <!-- Full Name -->
+
+                <div class="info-field">
+
+                  <label>FULL NAME</label>
+
+                  <div class="field-value" *ngIf="!editing['displayName']">
+
+                    <span>{{ profileData.displayName || '—' }}</span>
+
+                    <button mat-icon-button class="edit-btn" (click)="startEdit('displayName')" matTooltip="Edit">
+
+                      <mat-icon>edit</mat-icon>
+
+                    </button>
+
+                  </div>
+
+                  <div class="field-edit" *ngIf="editing['displayName']">
+
+                    <input class="edit-input" [(ngModel)]="editValues['displayName']" placeholder="Full name">
+
+                    <button mat-icon-button class="save-btn" (click)="saveField('displayName')" matTooltip="Save">
+
+                      <mat-icon>check</mat-icon>
+
+                    </button>
+
+                    <button mat-icon-button class="cancel-btn" (click)="cancelEdit('displayName')" matTooltip="Cancel">
+
+                      <mat-icon>close</mat-icon>
+
+                    </button>
+
+                  </div>
+
+                </div>
+
+                <!-- Email -->
+
+                <div class="info-field">
+
+                  <label>EMAIL ADDRESS</label>
+
+                  <div class="field-value">
+
+                    <span>{{ profileData.email || '—' }}</span>
+
+                  </div>
+
+                </div>
+
+                <!-- Role -->
+
+                <div class="info-field">
+
+                  <label>ROLE</label>
+
+                  <div class="field-value">
+
+                    <span class="role-chip">{{ roleLabel }}</span>
+
+                  </div>
+
+                </div>
+
+                <!-- Gender -->
+
+                <div class="info-field">
+
+                  <label>GENDER</label>
+
+                  <div class="field-value" *ngIf="!editing['gender']">
+
+                    <span>{{ profileData.gender || '—' }}</span>
+
+                    <button mat-icon-button class="edit-btn" (click)="startEdit('gender')" matTooltip="Edit">
+
+                      <mat-icon>edit</mat-icon>
+
+                    </button>
+
+                  </div>
+
+                  <div class="field-edit" *ngIf="editing['gender']">
+
+                    <select class="edit-select" [(ngModel)]="editValues['gender']">
+
+                      <option value="">Select gender</option>
+
+                      <option value="Male">Male</option>
+
+                      <option value="Female">Female</option>
+
+                      <option value="Non-binary">Non-binary</option>
+
+                      <option value="Prefer not to say">Prefer not to say</option>
+
+                    </select>
+
+                    <button mat-icon-button class="save-btn" (click)="saveField('gender')"><mat-icon>check</mat-icon></button>
+
+                    <button mat-icon-button class="cancel-btn" (click)="cancelEdit('gender')"><mat-icon>close</mat-icon></button>
+
+                  </div>
+
+                </div>
+
+                <!-- Nationality -->
+
+                <div class="info-field">
+
+                  <label>NATIONALITY</label>
+
+                  <div class="field-value" *ngIf="!editing['nationality']">
+
+                    <span>{{ profileData.nationality || '—' }}</span>
+
+                    <button mat-icon-button class="edit-btn" (click)="startEdit('nationality')" matTooltip="Edit">
+
+                      <mat-icon>edit</mat-icon>
+
+                    </button>
+
+                  </div>
+
+                  <div class="field-edit" *ngIf="editing['nationality']">
+
+                    <input class="edit-input" [(ngModel)]="editValues['nationality']" placeholder="e.g. Indian">
+
+                    <button mat-icon-button class="save-btn" (click)="saveField('nationality')"><mat-icon>check</mat-icon></button>
+
+                    <button mat-icon-button class="cancel-btn" (click)="cancelEdit('nationality')"><mat-icon>close</mat-icon></button>
+
+                  </div>
+
+                </div>
+
+                <!-- Qualification -->
+
+                <div class="info-field">
+
+                  <label>QUALIFICATION</label>
+
+                  <div class="field-value" *ngIf="!editing['qualification']">
+
+                    <span>{{ profileData.qualification || '—' }}</span>
+
+                    <button mat-icon-button class="edit-btn" (click)="startEdit('qualification')" matTooltip="Edit">
+
+                      <mat-icon>edit</mat-icon>
+
+                    </button>
+
+                  </div>
+
+                  <div class="field-edit" *ngIf="editing['qualification']">
+
+                    <input class="edit-input" [(ngModel)]="editValues['qualification']" placeholder="e.g. B.Tech in Computer Science">
+
+                    <button mat-icon-button class="save-btn" (click)="saveField('qualification')"><mat-icon>check</mat-icon></button>
+
+                    <button mat-icon-button class="cancel-btn" (click)="cancelEdit('qualification')"><mat-icon>close</mat-icon></button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- CONTACT TAB -->
+
+          <div class="tab-content" *ngIf="activeTab==='contact'">
+
+            <div class="info-section">
+
+              <h3 class="info-section-title"><mat-icon>contacts</mat-icon> Contact Details</h3>
+
+              <div class="info-grid">
+
+                <div class="info-field" *ngFor="let f of [
+
+                  {key:'phone', label:'PHONE NUMBER', placeholder:'+91 98765 43210'},
+
+                  {key:'address', label:'ADDRESS', placeholder:'Street, City, State'},
+
+                  {key:'location', label:'CITY / REGION', placeholder:'e.g. Coimbatore, Tamil Nadu'},
+
+                  {key:'emergencyContact', label:'EMERGENCY CONTACT', placeholder:'Name & phone number'}
+
+                ]">
+
+                  <label>{{ f.label }}</label>
+
+                  <div class="field-value" *ngIf="!editing[f.key]">
+
+                    <span>{{ profileData[f.key] || '—' }}</span>
+
+                    <button mat-icon-button class="edit-btn" (click)="startEdit(f.key)" matTooltip="Edit">
+
+                      <mat-icon>edit</mat-icon>
+
+                    </button>
+
+                  </div>
+
+                  <div class="field-edit" *ngIf="editing[f.key]">
+
+                    <input class="edit-input" [(ngModel)]="editValues[f.key]" [placeholder]="f.placeholder">
+
+                    <button mat-icon-button class="save-btn" (click)="saveField(f.key)"><mat-icon>check</mat-icon></button>
+
+                    <button mat-icon-button class="cancel-btn" (click)="cancelEdit(f.key)"><mat-icon>close</mat-icon></button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ACTIVITY TAB -->
+
+          <div class="tab-content" *ngIf="activeTab==='activity'">
+
+            <div class="info-section">
+
+              <h3 class="info-section-title"><mat-icon>history</mat-icon> Recent Activity</h3>
+
+              <div class="activity-list">
+
+                <div class="activity-item" *ngFor="let act of recentActivity">
+
+                  <div class="activity-icon" [ngClass]="act.type">
+
+                    <mat-icon>{{ act.icon }}</mat-icon>
+
+                  </div>
+
+                  <div class="activity-text">
+
+                    <p>{{ act.description }}</p>
+
+                    <span>{{ act.time }}</span>
+
+                  </div>
+
+                </div>
+
+                <div class="empty-state" *ngIf="recentActivity.length === 0">
+
+                  <mat-icon>history</mat-icon>
+
+                  <h3>No recent activity</h3>
+
+                  <p>Your activity will appear here.</p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

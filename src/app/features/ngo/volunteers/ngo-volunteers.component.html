@@ -1,0 +1,242 @@
+
+<div class="app-shell">
+
+  <app-sidebar></app-sidebar>
+
+  <div class="main-panel">
+
+    <app-navbar></app-navbar>
+
+    <div class="page-content">
+
+      <div class="page-heading">
+
+        <div>
+
+          <h1 class="page-title">Volunteer <span>Registry</span></h1>
+
+          <p class="page-subtitle">View all registered volunteers and manage assignments.</p>
+
+        </div>
+
+        <div class="heading-stat">
+
+          <span class="live-badge"><span class="live-dot"></span> {{ volunteers.length }} Registered</span>
+
+        </div>
+
+      </div>
+
+      <!-- Summary Cards -->
+
+      <div class="vol-stats">
+
+        <div class="vstat-card">
+
+          <div class="vstat-icon avail"><mat-icon>check_circle</mat-icon></div>
+
+          <div>
+
+            <div class="vstat-val">{{ availableCount }}</div>
+
+            <div class="vstat-lbl">Available</div>
+
+          </div>
+
+        </div>
+
+        <div class="vstat-card">
+
+          <div class="vstat-icon assign"><mat-icon>assignment_turned_in</mat-icon></div>
+
+          <div>
+
+            <div class="vstat-val">{{ assignedCount }}</div>
+
+            <div class="vstat-lbl">On Mission</div>
+
+          </div>
+
+        </div>
+
+        <div class="vstat-card">
+
+          <div class="vstat-icon total"><mat-icon>people</mat-icon></div>
+
+          <div>
+
+            <div class="vstat-val">{{ volunteers.length }}</div>
+
+            <div class="vstat-lbl">Total</div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Volunteers Grid -->
+
+      <div class="section-card" *ngIf="volunteers.length > 0; else noVols">
+
+        <div class="section-header">
+
+          <div class="section-title-row">
+
+            <mat-icon class="section-icon">people</mat-icon>
+
+            <h2>All Volunteers</h2>
+
+          </div>
+
+          <!-- Search -->
+
+          <mat-form-field appearance="outline" class="search-field">
+
+            <mat-label>Search volunteers</mat-label>
+
+            <input matInput [(ngModel)]="searchQuery" placeholder="Name or email...">
+
+            <mat-icon matSuffix>search</mat-icon>
+
+          </mat-form-field>
+
+        </div>
+
+        <div class="volunteers-grid">
+
+          <div class="vol-card" *ngFor="let vol of filteredVolunteers">
+
+            <div class="vol-avatar">
+
+              <mat-icon>person</mat-icon>
+
+            </div>
+
+            <div class="vol-info">
+
+              <h3>{{ vol.displayName }}</h3>
+
+              <p class="vol-email">{{ vol.email }}</p>
+
+              <p class="vol-location" *ngIf="vol.location">
+
+                <mat-icon>location_on</mat-icon> {{ vol.location }}
+
+              </p>
+
+              <span class="vol-since">
+
+                <mat-icon>calendar_today</mat-icon>
+
+                Joined {{ vol.registeredAt | date:'mediumDate' }}
+
+              </span>
+
+            </div>
+
+            <div class="vol-actions">
+
+              <span class="status-chip" [ngClass]="vol.status">
+
+                {{ vol.status | titlecase }}
+
+              </span>
+
+              <button mat-raised-button class="btn-primary assign-vol-btn"
+
+                [disabled]="vol.status === 'assigned'"
+
+                (click)="openAssignModal(vol)">
+
+                <mat-icon>{{ vol.status === 'assigned' ? 'check_circle' : 'assignment' }}</mat-icon>
+
+                {{ vol.status === 'assigned' ? 'On Mission' : 'Assign to Incident' }}
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <ng-template #noVols>
+
+        <div class="section-card">
+
+          <div class="empty-state">
+
+            <mat-icon>people_outline</mat-icon>
+
+            <h3>No Volunteers Yet</h3>
+
+            <p>Volunteers will appear here once they register on the platform.</p>
+
+          </div>
+
+        </div>
+
+      </ng-template>
+
+      <!-- Assign Modal Overlay -->
+
+      <div class="modal-overlay" *ngIf="showAssignModal" (click)="closeModal()">
+
+        <div class="assign-modal" (click)="$event.stopPropagation()">
+
+          <div class="modal-header">
+
+            <h3>Assign <strong>{{ selectedVol?.displayName }}</strong> to an Incident</h3>
+
+            <button mat-icon-button (click)="closeModal()"><mat-icon>close</mat-icon></button>
+
+          </div>
+
+          <div class="incident-pick-list" *ngIf="pendingIncidents.length > 0; else noIncidents">
+
+            <div class="incident-pick-item" *ngFor="let inc of pendingIncidents"
+
+              (click)="confirmAssign(inc)">
+
+              <span class="badge" [style.background]="getUrgencyColor(inc.urgency)">{{ inc.urgency }}</span>
+
+              <div class="pick-text">
+
+                <p>{{ inc.title }}</p>
+
+                <span>{{ inc.type }} · {{ inc.timestamp | date:'short' }}</span>
+
+              </div>
+
+              <mat-icon class="pick-arrow">chevron_right</mat-icon>
+
+            </div>
+
+          </div>
+
+          <ng-template #noIncidents>
+
+            <div class="empty-state" style="padding:32px">
+
+              <mat-icon>verified_user</mat-icon>
+
+              <h3>No pending incidents</h3>
+
+              <p>All incidents are currently assigned or resolved.</p>
+
+            </div>
+
+          </ng-template>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

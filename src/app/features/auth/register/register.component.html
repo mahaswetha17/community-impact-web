@@ -1,0 +1,102 @@
+
+<div class="auth-wrapper">
+
+  <div class="auth-card">
+
+    <div class="auth-header">
+
+      <div class="auth-icon" [ngClass]="role">
+
+        <mat-icon>how_to_reg</mat-icon>
+
+      </div>
+
+      <h1 class="auth-title">Create Account</h1>
+
+      <p class="auth-sub">Register as <strong>{{ role | titlecase }}</strong></p>
+
+    </div>
+
+    <div class="auth-form">
+
+      <mat-form-field appearance="outline" class="form-field">
+
+        <mat-label>Full Name</mat-label>
+
+        <input matInput [(ngModel)]="displayName" required>
+
+        <mat-icon matSuffix>person</mat-icon>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+
+        <mat-label>Email Address</mat-label>
+
+        <input matInput [(ngModel)]="email" type="email" required>
+
+        <mat-icon matSuffix>alternate_email</mat-icon>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+
+        <mat-label>Password</mat-label>
+
+        <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" required>
+
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" tabindex="-1">
+
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+
+        </button>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+
+        <mat-label>Confirm Password</mat-label>
+
+        <input matInput type="password" [(ngModel)]="confirmPassword" required>
+
+        <mat-icon matSuffix>lock</mat-icon>
+
+      </mat-form-field>
+
+      <button mat-raised-button class="btn-primary login-btn"
+
+        [disabled]="!email || !password || !displayName || isLoading"
+
+        (click)="onRegister()">
+
+        <mat-spinner *ngIf="isLoading" diameter="18" style="display:inline-block;margin-right:8px;"></mat-spinner>
+
+        <mat-icon *ngIf="!isLoading">person_add</mat-icon>
+
+        {{ isLoading ? 'Creating account...' : 'Create Account' }}
+
+      </button>
+
+    </div>
+
+    <div class="auth-footer">
+
+      <span>Already have an account?</span>
+
+      <a [routerLink]="['/login']" [queryParams]="{role: role}" class="signup-link">Sign in here</a>
+
+    </div>
+
+    <div class="back-home">
+
+      <a routerLink="/" class="back-link">
+
+        <mat-icon>arrow_back</mat-icon> Back to Home
+
+      </a>
+
+    </div>
+
+  </div>
+
+</div>

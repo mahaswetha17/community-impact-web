@@ -1,0 +1,100 @@
+
+<div class="app-shell">
+
+  <app-sidebar></app-sidebar>
+
+  <div class="main-panel">
+
+    <app-navbar></app-navbar>
+
+    <div class="page-content">
+
+      <div class="page-heading">
+
+        <div>
+
+          <h1 class="page-title">All <span>Incidents</span></h1>
+
+          <p class="page-subtitle">Monitor and manage all reported incidents.</p>
+
+        </div>
+
+        <span class="badge-count">{{ incidents.length }} Total</span>
+
+      </div>
+
+      <div class="filter-bar">
+
+        <button [class.active]="filter==='all'" (click)="filter='all'">All</button>
+
+        <button [class.active]="filter==='pending'" (click)="filter='pending'">Pending</button>
+
+        <button [class.active]="filter==='assigned'" (click)="filter='assigned'">Assigned</button>
+
+        <button [class.active]="filter==='completed'" (click)="filter='completed'">Resolved</button>
+
+      </div>
+
+      <div class="section-card">
+
+        <div class="incidents-list" *ngIf="filtered.length > 0; else noInc">
+
+          <div class="inc-row" *ngFor="let inc of filtered">
+
+            <div class="inc-urgency-dot" [style.background]="getUrgencyColor(inc.urgency)"></div>
+
+            <div class="inc-body">
+
+              <div class="inc-top">
+
+                <span class="badge" [style.background]="getUrgencyColor(inc.urgency)">{{ inc.urgency }}</span>
+
+                <span class="inc-type"><mat-icon>category</mat-icon>{{ inc.type }}</span>
+
+                <span class="inc-time"><mat-icon>schedule</mat-icon>{{ inc.timestamp | date:'short' }}</span>
+
+              </div>
+
+              <h3>{{ inc.title }}</h3>
+
+              <p>{{ inc.description }}</p>
+
+            </div>
+
+            <div class="inc-status">
+
+              <span class="status-badge" [ngClass]="inc.status">{{ inc.status | titlecase }}</span>
+
+              <button mat-stroked-button *ngIf="inc.status !== 'completed'" (click)="markCompleted(inc.id!)" class="resolve-btn">
+
+                <mat-icon>check</mat-icon> Resolve
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <ng-template #noInc>
+
+          <div class="empty-state">
+
+            <mat-icon>verified_user</mat-icon>
+
+            <h3>No Incidents Found</h3>
+
+            <p>No incidents match the selected filter.</p>
+
+          </div>
+
+        </ng-template>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

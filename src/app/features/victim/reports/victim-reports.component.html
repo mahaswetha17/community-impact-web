@@ -1,0 +1,134 @@
+<div class="app-shell">
+  <app-sidebar></app-sidebar>
+  <div class="main-panel">
+    <app-navbar></app-navbar>
+    <div class="page-content">
+
+      <div class="page-heading">
+        <div>
+          <h1 class="page-title">My <span>Reports</span></h1>
+          <p class="page-subtitle">Track your submitted emergency reports and rate volunteer service.</p>
+        </div>
+        <span class="badge-count">{{ myReports.length }} Total</span>
+      </div>
+
+      <!-- ── NOTIFICATION ALERTS PANEL ─────────────────── -->
+      <div class="notif-panel" *ngIf="notifications.length > 0">
+        <div class="notif-panel-header">
+          <mat-icon>notifications_active</mat-icon>
+          <h3>Alerts &amp; Updates</h3>
+          <button mat-button class="mark-all-btn" (click)="markAllRead()" *ngIf="(notifService.getUnreadCount()) > 0">
+            Mark all read
+          </button>
+        </div>
+        <div class="notif-list">
+          <div class="notif-item" *ngFor="let n of notifications"
+               [class.unread]="!n.read"
+               (click)="markNotifRead(n)">
+            <div class="notif-icon" [style.background]="getNotifColor(n.type) + '20'">
+              <mat-icon [style.color]="getNotifColor(n.type)">{{ getNotifIcon(n.type) }}</mat-icon>
+            </div>
+            <div class="notif-body">
+              <p class="notif-title">{{ n.title }}</p>
+              <p class="notif-msg">{{ n.message }}</p>
+              <span class="notif-time">{{ n.createdAt | date:'short' }}</span>
+            </div>
+            <div class="unread-dot" *ngIf="!n.read"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── REPORTS LIST ────────────────────────────────── -->
+      <div class="reports-list" *ngIf="myReports.length > 0; else noReports">
+        <div class="report-card" *ngFor="let report of myReports">
+          <div class="report-left">
+            <div class="report-status-bar" [style.background]="getStatusColor(report.status)"></div>
+            <div class="report-icon" [style.background]="getUrgencyBg(report.urgency)">
+              <mat-icon>report_problem</mat-icon>
+            </div>
+          </div>
+
+          <div class="report-body">
+            <div class="report-top-row">
+              <h3>{{ report.title }}</h3>
+              <span class="badge" [style.background]="getUrgencyColor(report.urgency)">{{ report.urgency }}</span>
+            </div>
+            <p>{{ report.description }}</p>
+            <div class="report-meta">
+              <span class="meta-chip"><mat-icon>category</mat-icon> {{ report.type }}</span>
+              <span class="meta-chip"><mat-icon>schedule</mat-icon> {{ report.timestamp | date:'medium' }}</span>
+              <span class="meta-chip"><mat-icon>location_on</mat-icon> {{ report.latitude | number:'1.2-2' }}, {{ report.longitude | number:'1.2-2' }}</span>
+              <span class="meta-chip" *ngIf="report.volunteerName">
+                <mat-icon>person</mat-icon> {{ report.volunteerName }}
+              </span>
+            </div>
+
+            <!-- Directions button (for assigned/completed) -->
+            <div class="report-actions" *ngIf="report.status === 'assigned' || report.status === 'completed'">
+              <a mat-stroked-button [href]="getDirectionsUrl(report)" target="_blank" class="directions-btn">
+                <mat-icon>directions</mat-icon> Get Directions to Incident
+              </a>
+            </div>
+
+            <!-- Rating panel (only for completed, unrated) -->
+            <div class="rating-section" *ngIf="report.status === 'completed'">
+              <ng-container *ngIf="!hasAlreadyRated(report)">
+                <button mat-stroked-button class="rate-btn" (click)="openRating(report.id!)">
+                  <mat-icon>star_border</mat-icon>
+                  {{ ratingPanelOpenId === report.id ? 'Cancel Rating' : 'Rate Volunteer Service' }}
+                </button>
+
+                <div class="rating-panel" *ngIf="ratingPanelOpenId === report.id">
+                  <p class="rating-prompt">How would you rate the help you received?</p>
+                  <div class="stars-row">
+                    <button class="star-btn" *ngFor="let s of [1,2,3,4,5]"
+                      (click)="setRating(s)"
+                      [class.active]="ratingValue >= s">
+                      <mat-icon>{{ ratingValue >= s ? 'star' : 'star_border' }}</mat-icon>
+                    </button>
+                  </div>
+                  <textarea class="rating-comment" placeholder="Leave a comment (optional)..."
+                    [(ngModel)]="ratingComment" rows="3"></textarea>
+                  <button mat-raised-button class="btn-primary submit-rating-btn"
+                    (click)="submitRating(report)"
+                    [disabled]="isSubmittingRating || !ratingValue">
+                    {{ isSubmittingRating ? 'Submitting...' : 'Submit Rating' }}
+                  </button>
+                </div>
+              </ng-container>
+
+              <!-- Already rated -->
+              <div class="already-rated" *ngIf="hasAlreadyRated(report)">
+                <mat-icon>star</mat-icon>
+                <span>You rated this {{ getExistingRating(report) }}/5 — Thank you!</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="report-status-col">
+            <div class="status-pill"
+              [style.background]="getStatusColor(report.status) + '20'"
+              [style.color]="getStatusColor(report.status)">
+              <mat-icon>{{ getStatusIcon(report.status) }}</mat-icon>
+              {{ getStatusLabel(report.status) }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noReports>
+        <div class="section-card">
+          <div class="empty-state">
+            <mat-icon>folder_open</mat-icon>
+            <h3>No Reports Yet</h3>
+            <p>Your submitted emergency reports will appear here.</p>
+            <button mat-raised-button class="btn-primary" routerLink="/victim/dashboard" style="margin-top:16px">
+              <mat-icon>add_circle</mat-icon> Submit a Report
+            </button>
+          </div>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+</div>

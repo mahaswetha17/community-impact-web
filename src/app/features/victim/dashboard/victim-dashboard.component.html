@@ -1,0 +1,164 @@
+
+<div class="app-shell">
+
+  <app-sidebar></app-sidebar>
+
+  <div class="main-panel">
+
+    <app-navbar></app-navbar>
+
+    <div class="page-content">
+
+      <!-- Page Title -->
+
+      <div class="page-heading">
+
+        <div>
+
+          <h1 class="page-title">Emergency <span>Help Center</span></h1>
+
+          <p class="page-subtitle">Report your emergency and get immediate assistance.</p>
+
+        </div>
+
+      </div>
+
+      <!-- Emergency Alert Banner -->
+
+      <div class="alert-banner warning">
+
+        <div class="alert-icon">
+
+          <mat-icon>info</mat-icon>
+
+        </div>
+
+        <div class="alert-text">
+
+          <h4>Need Immediate Assistance?</h4>
+
+          <p>Use the form below to report your emergency. For life-threatening situations, also call <strong>112</strong> immediately.</p>
+
+        </div>
+
+      </div>
+
+      <!-- Main Grid -->
+
+      <div class="victim-grid">
+
+        <!-- Report Form (left) -->
+
+        <div class="report-col">
+
+          <app-report-incident></app-report-incident>
+
+        </div>
+
+        <!-- History + Map (right) -->
+
+        <div class="right-col">
+
+          <!-- My Reports -->
+
+          <div class="section-card">
+
+            <div class="section-header">
+
+              <div class="section-title-row">
+
+                <mat-icon class="section-icon">folder_open</mat-icon>
+
+                <h2>Your Report History</h2>
+
+              </div>
+
+              <span class="badge-count">{{ myReports.length }} Reports</span>
+
+            </div>
+
+            <div class="report-list" *ngIf="myReports.length > 0; else noReports">
+
+              <div class="report-item" *ngFor="let report of myReports">
+
+                <div class="report-status-dot" [style.background]="getStatusColor(report.status)"></div>
+
+                <div class="report-details">
+
+                  <h4>{{ report.title }}</h4>
+
+                  <p>{{ report.description }}</p>
+
+                  <div class="report-tags">
+
+                    <span class="tag status-tag" [style.background]="getStatusColor(report.status) + '20'" [style.color]="getStatusColor(report.status)">
+
+                      {{ getStatusLabel(report.status) }}
+
+                    </span>
+
+                    <span class="tag">{{ report.type }}</span>
+
+                    <span class="tag">{{ report.urgency }} Priority</span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <ng-template #noReports>
+
+              <div class="empty-state">
+
+                <mat-icon>folder_open</mat-icon>
+
+                <h3>No Reports Yet</h3>
+
+                <p>Use the form to report an emergency.</p>
+
+              </div>
+
+            </ng-template>
+
+          </div>
+
+          <!-- Your Location Map -->
+
+          <div class="section-card">
+
+            <div class="section-header">
+
+              <div class="section-title-row">
+
+                <mat-icon class="section-icon">location_on</mat-icon>
+
+                <h2>Your Location</h2>
+
+              </div>
+
+            </div>
+
+            <div class="map-wrapper">
+
+              <google-map height="280px" width="100%" [center]="currentLocation" [zoom]="zoom">
+
+                <map-marker [position]="currentLocation" title="Your Location"></map-marker>
+
+              </google-map>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

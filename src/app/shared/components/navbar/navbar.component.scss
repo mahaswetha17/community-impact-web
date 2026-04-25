@@ -1,0 +1,380 @@
+
+.top-navbar {
+
+  height: 70px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  backdrop-filter: blur(12px);
+
+  border-bottom: 1px solid rgba(46, 125, 50, 0.1);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 0 28px;
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 50;
+
+  box-shadow: 0 2px 12px rgba(46, 125, 50, 0.06);
+
+}
+
+.navbar-left {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  .menu-toggle {
+
+    color: #4a6a4a;
+
+    display: none;
+
+    @media (max-width: 768px) {
+
+      display: flex;
+
+    }
+
+  }
+
+  .greeting {
+
+    .greeting-text {
+
+      font-size: 14px;
+
+      color: #6a8a6a;
+
+      font-weight: 400;
+
+      strong {
+
+        color: #1a2a1a;
+
+        font-weight: 700;
+
+      }
+
+    }
+
+  }
+
+}
+
+.navbar-right {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 4px;
+
+}
+
+.nav-icon-btn {
+
+  color: #5a7a5a !important;
+
+  width: 40px !important;
+
+  height: 40px !important;
+
+  border-radius: 10px !important;
+
+  transition: all 0.2s ease !important;
+
+  position: relative;
+
+  &:hover {
+
+    background: rgba(46, 125, 50, 0.08) !important;
+
+    color: #2e7d32 !important;
+
+  }
+
+  mat-icon {
+
+    font-size: 20px !important;
+
+    height: 20px !important;
+
+    width: 20px !important;
+
+  }
+
+  .notif-badge {
+
+    position: absolute;
+
+    top: 4px;
+
+    right: 4px;
+
+    width: 16px;
+
+    height: 16px;
+
+    background: #f44336;
+
+    color: white;
+
+    border-radius: 50%;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-family: 'Poppins', sans-serif;
+
+  }
+
+}
+
+.profile-btn {
+
+  height: 48px !important;
+
+  border-radius: 12px !important;
+
+  padding: 0 12px !important;
+
+  margin-left: 8px;
+
+  transition: all 0.2s ease !important;
+
+  &:hover {
+
+    background: rgba(46, 125, 50, 0.06) !important;
+
+  }
+
+}
+
+.avatar-wrapper {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  .avatar {
+
+    width: 36px;
+
+    height: 36px;
+
+    border-radius: 10px;
+
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    box-shadow: 0 3px 8px rgba(46, 125, 50, 0.3);
+
+    mat-icon {
+
+      color: white;
+
+      font-size: 18px !important;
+
+      height: 18px !important;
+
+      width: 18px !important;
+
+    }
+
+  }
+
+  .user-info {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    line-height: 1.2;
+
+    .user-name {
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      color: #1a2a1a;
+
+    }
+
+    .user-role {
+
+      font-size: 11px;
+
+      font-weight: 500;
+
+      color: #8aaa8a;
+
+    }
+
+  }
+
+  .chevron {
+
+    color: #8aaa8a;
+
+    font-size: 18px !important;
+
+    height: 18px !important;
+
+    width: 18px !important;
+
+  }
+
+}
+
+// Profile Dropdown Menu
+
+::ng-deep .profile-menu {
+
+  .mat-mdc-menu-content {
+
+    padding: 0 !important;
+
+  }
+
+  .menu-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 16px 16px 12px;
+
+    .menu-avatar {
+
+      width: 40px;
+
+      height: 40px;
+
+      border-radius: 10px;
+
+      background: linear-gradient(135deg, #4caf50, #2e7d32);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      mat-icon {
+
+        color: white;
+
+        font-size: 20px;
+
+      }
+
+    }
+
+    .menu-name {
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+      color: #1a2a1a;
+
+      margin: 0;
+
+      font-family: 'Poppins', sans-serif;
+
+    }
+
+    .menu-role {
+
+      font-size: 12px;
+
+      color: #8aaa8a;
+
+      margin: 0;
+
+      font-family: 'Poppins', sans-serif;
+
+    }
+
+  }
+
+  .logout-menu-item {
+
+    color: #d32f2f !important;
+
+    mat-icon { color: #d32f2f !important; }
+
+  }
+
+}
+
+/* ── NOTIFICATION MENU ITEMS ──────────────────────────── */
+.notif-item {
+  height: auto !important;
+  padding: 8px 16px !important;
+  line-height: 1.4 !important;
+  white-space: normal !important;
+
+  &.unread {
+    background: rgba(76,175,80,.05);
+  }
+
+  .notif-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 12px;
+    color: #1a2a1a;
+
+    strong {
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+
+    small {
+      color: #5a7a5a;
+      font-size: 11px;
+    }
+  }
+}
+
+.notif-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

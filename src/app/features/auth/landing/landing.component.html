@@ -1,0 +1,200 @@
+
+<div class="landing-root">
+
+  <!-- Decorative Background -->
+
+  <div class="bg-decor">
+
+    <div class="circle c1"></div>
+
+    <div class="circle c2"></div>
+
+    <div class="circle c3"></div>
+
+  </div>
+
+  <!-- Hero Section -->
+
+  <div class="hero-section">
+
+    <div class="hero-logo">
+
+      <div class="logo-circle">
+
+        <mat-icon>public</mat-icon>
+
+      </div>
+
+    </div>
+
+    <h1 class="hero-title">Community <span>Impact</span></h1>
+
+    <p class="hero-desc">Smart Resource Allocation & Volunteer Coordination for Social Impact</p>
+
+    <div class="hero-stats">
+
+      <div class="stat-pill">
+
+        <mat-icon>people</mat-icon>
+
+        <span>500+ Volunteers</span>
+
+      </div>
+
+      <div class="stat-pill">
+
+        <mat-icon>verified_user</mat-icon>
+
+        <span>100+ NGOs</span>
+
+      </div>
+
+      <div class="stat-pill">
+
+        <mat-icon>favorite</mat-icon>
+
+        <span>10K+ Lives Impacted</span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Role Selection -->
+
+  <div class="roles-section">
+
+    <h2 class="roles-title">Select Your Role to Continue</h2>
+
+    <p class="roles-sub">Each role has a dedicated dashboard tailored to your needs</p>
+
+    <div class="roles-grid">
+
+      <!-- NGO Admin -->
+
+      <div class="role-card ngo-card" [routerLink]="['/login']" [queryParams]="{role: 'ngo'}">
+
+        <div class="card-glow"></div>
+
+        <div class="card-icon">
+
+          <mat-icon>account_balance</mat-icon>
+
+        </div>
+
+        <div class="card-content">
+
+          <h3>NGO Admin</h3>
+
+          <p>Manage crisis reports, monitor incidents on the live map, and assign volunteers efficiently.</p>
+
+          <ul class="feature-list">
+
+            <li><mat-icon>check_circle</mat-icon> Live Incident Map</li>
+
+            <li><mat-icon>check_circle</mat-icon> AI Volunteer Matching</li>
+
+            <li><mat-icon>check_circle</mat-icon> Crisis Analytics</li>
+
+          </ul>
+
+        </div>
+
+        <div class="card-footer">
+
+          <span class="enter-btn">Enter as NGO Admin <mat-icon>arrow_forward</mat-icon></span>
+
+        </div>
+
+      </div>
+
+      <!-- Volunteer -->
+
+      <div class="role-card volunteer-card" [routerLink]="['/login']" [queryParams]="{role: 'volunteer'}">
+
+        <div class="card-glow"></div>
+
+        <div class="card-icon">
+
+          <mat-icon>volunteer_activism</mat-icon>
+
+        </div>
+
+        <div class="card-content">
+
+          <h3>Volunteer</h3>
+
+          <p>Respond to assigned crises, track your location, and report on-ground incidents in real time.</p>
+
+          <ul class="feature-list">
+
+            <li><mat-icon>check_circle</mat-icon> Mission Assignments</li>
+
+            <li><mat-icon>check_circle</mat-icon> Live Navigation</li>
+
+            <li><mat-icon>check_circle</mat-icon> Incident Reporting</li>
+
+          </ul>
+
+        </div>
+
+        <div class="card-footer">
+
+          <span class="enter-btn">Enter as Volunteer <mat-icon>arrow_forward</mat-icon></span>
+
+        </div>
+
+      </div>
+
+      <!-- Victim / User -->
+
+      <div class="role-card victim-card" [routerLink]="['/login']" [queryParams]="{role: 'victim'}">
+
+        <div class="card-glow"></div>
+
+        <div class="card-icon">
+
+          <mat-icon>emergency</mat-icon>
+
+        </div>
+
+        <div class="card-content">
+
+          <h3>Victim / User</h3>
+
+          <p>Report emergencies quickly and request immediate assistance with AI-powered analysis.</p>
+
+          <ul class="feature-list">
+
+            <li><mat-icon>check_circle</mat-icon> Emergency Reporting</li>
+
+            <li><mat-icon>check_circle</mat-icon> AI Severity Analysis</li>
+
+            <li><mat-icon>check_circle</mat-icon> Real-time Status</li>
+
+          </ul>
+
+        </div>
+
+        <div class="card-footer">
+
+          <span class="enter-btn">Enter as User <mat-icon>arrow_forward</mat-icon></span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+
+  <footer class="landing-footer">
+
+    <p>© 2025 Community Impact. Powered by AI for Social Good.</p>
+
+  </footer>
+
+</div>

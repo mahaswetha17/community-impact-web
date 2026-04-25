@@ -1,0 +1,122 @@
+
+<div class="report-container">
+
+  <div class="report-header">
+
+    <div class="report-header-icon">
+
+      <mat-icon>campaign</mat-icon>
+
+    </div>
+
+    <div class="report-header-text">
+
+      <h2>Report an Incident</h2>
+
+      <p>Describe the situation for immediate AI analysis.</p>
+
+    </div>
+
+  </div>
+
+  <!-- Input Modes -->
+
+  <div class="input-modes-grid">
+
+    <button class="mode-btn upload-btn" (click)="fileInput.click()" type="button">
+
+      <mat-icon>add_a_photo</mat-icon>
+
+      <span>Upload Image (OCR)</span>
+
+    </button>
+
+    <input type="file" #fileInput hidden accept="image/*" (change)="onFileSelected($event)">
+
+    <button class="mode-btn voice-btn" (click)="startVoiceRecording()" type="button"
+
+      [class.recording]="isRecording">
+
+      <mat-icon>{{ isRecording ? 'mic' : 'mic_none' }}</mat-icon>
+
+      <span>{{ isRecording ? 'Listening...' : 'Voice Input' }}</span>
+
+    </button>
+
+  </div>
+
+  <!-- Image Preview -->
+
+  <div class="image-preview" *ngIf="imagePreviewUrl">
+
+    <img [src]="imagePreviewUrl" alt="Uploaded image" />
+
+    <button class="remove-img-btn" (click)="clearImage()" mat-icon-button>
+
+      <mat-icon>close</mat-icon>
+
+    </button>
+
+  </div>
+
+  <!-- Text Area -->
+
+  <mat-form-field appearance="outline" class="report-textarea-field">
+
+    <mat-label>Describe the incident</mat-label>
+
+    <textarea matInput [(ngModel)]="reportText" rows="5"
+
+      placeholder="E.g., Heavy flooding near the main bridge, need urgent rescue..."></textarea>
+
+  </mat-form-field>
+
+  <!-- Location Row -->
+
+  <div class="location-row">
+
+    <mat-icon>location_on</mat-icon>
+
+    <input type="text" class="location-text" [(ngModel)]="locationLabel" 
+
+           placeholder="Type location manually or refresh..."
+
+           style="border: none; background: transparent; outline: none; flex: 1;">
+
+    <button mat-stroked-button class="refresh-loc-btn" (click)="refreshLocation()" type="button">
+
+      <mat-icon>my_location</mat-icon> Refresh
+
+    </button>
+
+  </div>
+
+  <!-- Footer -->
+
+  <div class="report-footer">
+
+    <div class="analyzing-indicator" *ngIf="isAnalyzing">
+
+      <mat-spinner diameter="20"></mat-spinner>
+
+      <span>AI is analyzing severity...</span>
+
+    </div>
+
+    <button mat-raised-button class="btn-primary submit-report-btn"
+
+      [disabled]="!reportText.trim() || isAnalyzing"
+
+      (click)="submitReport()"
+
+      type="button">
+
+      <mat-icon>send</mat-icon>
+
+      Submit Report
+
+    </button>
+
+  </div>
+
+</div>

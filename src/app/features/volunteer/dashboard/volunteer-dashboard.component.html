@@ -1,0 +1,170 @@
+
+<div class="app-shell">
+
+  <app-sidebar></app-sidebar>
+
+  <div class="main-panel">
+
+    <app-navbar></app-navbar>
+
+    <div class="page-content">
+
+      <!-- Page Title -->
+
+      <div class="page-heading">
+
+        <div>
+
+          <h1 class="page-title">Volunteer <span>Mission Control</span></h1>
+
+          <p class="page-subtitle">Track your assignments and report incidents on the ground.</p>
+
+        </div>
+
+      </div>
+
+      <!-- Active Mission Alert -->
+
+      <div class="mission-banner" *ngIf="assignedIncident">
+
+        <div class="mission-icon">
+
+          <mat-icon>local_fire_department</mat-icon>
+
+        </div>
+
+        <div class="mission-info">
+
+          <h3>Active Mission: {{ assignedIncident.title }}</h3>
+
+          <p>{{ assignedIncident.description }}</p>
+
+          <div class="mission-meta">
+
+            <span class="badge" [style.background-color]="getUrgencyColor(assignedIncident.urgency)">
+
+              {{ assignedIncident.urgency }}
+
+            </span>
+
+            <span class="mission-type">
+
+              <mat-icon>category</mat-icon> {{ assignedIncident.type }}
+
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="mission-actions">
+
+          <a mat-stroked-button class="btn-outline directions-btn"
+
+            [href]="getDirectionsUrl()" target="_blank">
+
+            <mat-icon>directions</mat-icon> Navigate
+
+          </a>
+
+          <button mat-raised-button class="btn-primary served-btn"
+
+            (click)="markServed()" [disabled]="isCompleting">
+
+            <mat-spinner *ngIf="isCompleting" diameter="18"></mat-spinner>
+
+            <mat-icon *ngIf="!isCompleting">check_circle</mat-icon>
+
+            {{ isCompleting ? 'Completing...' : 'Mark Served' }}
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- No Mission State -->
+
+      <div class="no-mission-card" *ngIf="!assignedIncident">
+
+        <div class="no-mission-icon">
+
+          <mat-icon>check_circle</mat-icon>
+
+        </div>
+
+        <div>
+
+          <h3>No Active Missions</h3>
+
+          <p>Stand by — the NGO admin will assign you to a crisis soon.</p>
+
+        </div>
+
+      </div>
+
+      <!-- Two Column Layout -->
+
+      <div class="dashboard-grid">
+
+        <!-- Map -->
+
+        <div class="section-card map-card">
+
+          <div class="section-header">
+
+            <div class="section-title-row">
+
+              <mat-icon class="section-icon">my_location</mat-icon>
+
+              <h2>Your Current Location</h2>
+
+            </div>
+
+            <span class="live-badge">
+
+              <span class="live-dot"></span> Tracking
+
+            </span>
+
+          </div>
+
+          <div class="map-wrapper">
+
+            <google-map height="360px" width="100%" [center]="currentLocation" [zoom]="14">
+
+              <map-marker [position]="currentLocation" title="You are here"></map-marker>
+
+              <map-marker
+
+                *ngIf="assignedIncident"
+
+                [position]="{lat: assignedIncident.latitude, lng: assignedIncident.longitude}"
+
+                [options]="{ icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' }"
+
+                title="Crisis Location">
+
+              </map-marker>
+
+            </google-map>
+
+          </div>
+
+        </div>
+
+        <!-- Report Incident -->
+
+        <div class="section-card report-card">
+
+          <app-report-incident></app-report-incident>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
