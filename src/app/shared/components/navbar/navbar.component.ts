@@ -18,7 +18,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   showNotifPanel = false;
   notifications: AppNotification[] = [];
   private subs: Subscription[] = [];
-  isDarkMode = false;
 
   get notifCount(): number {
     return this.notifications.filter(n => !n.read).length;
@@ -61,7 +60,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() { this.subs.forEach(s => s.unsubscribe()); }
+  ngOnDestroy() {
+    this.subs.forEach(s => s.unsubscribe());
+  }
 
   markAllRead() {
     const userId = this.authService.getUserId();
@@ -69,15 +70,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.showNotifPanel = false;
   }
 
-  toggleNotifPanel() { this.showNotifPanel = !this.showNotifPanel; }
+  toggleNotifPanel() {
+    this.showNotifPanel = !this.showNotifPanel;
+  }
 
   onLogout() {
     this.authService.logout();
     this.router.navigate(['/']);
-  }
-
-  toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
-    document.body.classList.toggle('dark-theme', this.isDarkMode);
   }
 }

@@ -1,9 +1,9 @@
 export const environment = {
   production: false,
-  geminiApiKey: 'YOUR_GEMINI_API_KEY',
-  googleMapsApiKey: 'YOUR_GOOGLE_MAPS_API_KEY',
+  geminiApiKey: 'REPLACE_WITH_YOUR_GEMINI_API_KEY',
+  googleMapsApiKey: 'REPLACE_WITH_YOUR_GOOGLE_MAPS_API_KEY',
   firebase: {
-    apiKey: "YOUR_FIREBASE_API_KEY",
+    apiKey: "REPLACE_WITH_YOUR_FIREBASE_API_KEY",
     authDomain: "communityimpact-e7d5a.firebaseapp.com",
     projectId: "communityimpact-e7d5a",
     storageBucket: "communityimpact-e7d5a.firebasestorage.app",

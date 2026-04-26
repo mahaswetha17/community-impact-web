@@ -2,10 +2,10 @@ const env = (window as any).__env || {};
 
 export const environment = {
   production: true,
-  geminiApiKey: env['GEMINI_API_KEY'] || 'YOUR_GEMINI_API_KEY',
-  googleMapsApiKey: env['GOOGLE_MAPS_API_KEY'] || 'YOUR_GOOGLE_MAPS_API_KEY',
+  geminiApiKey: env['GEMINI_API_KEY'] || 'REPLACE_WITH_YOUR_GEMINI_API_KEY',
+  googleMapsApiKey: env['GOOGLE_MAPS_API_KEY'] || 'REPLACE_WITH_YOUR_GOOGLE_MAPS_API_KEY',
   firebase: {
-    apiKey: env['FIREBASE_API_KEY'] || "YOUR_FIREBASE_API_KEY",
+    apiKey: env['FIREBASE_API_KEY'] || "REPLACE_WITH_YOUR_FIREBASE_API_KEY",
     authDomain: env['FIREBASE_AUTH_DOMAIN'] || "communityimpact-e7d5a.firebaseapp.com",
     projectId: env['FIREBASE_PROJECT_ID'] || "communityimpact-e7d5a",
     storageBucket: env['FIREBASE_STORAGE_BUCKET'] || "communityimpact-e7d5a.firebasestorage.app",

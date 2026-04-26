@@ -78,10 +78,6 @@
       <button mat-menu-item routerLink="/profile">
         <mat-icon>manage_accounts</mat-icon><span>My Profile</span>
       </button>
-      <button mat-menu-item (click)="toggleDarkMode()">
-        <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
-        <span>{{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
-      </button>
       <mat-divider></mat-divider>
       <button mat-menu-item (click)="onLogout()" class="logout-menu-item">
         <mat-icon>logout</mat-icon><span>Sign Out</span>
