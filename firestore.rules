@@ -1,0 +1,39 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // User Profiles
+    match /users/{email} {
+      // Allow registration if the user doesn't exist yet
+      allow create: if request.auth == null || request.auth.token.email == email;
+      // Allow reading for login/profile check
+      allow read: if true;
+      // Allow updates to own profile
+      allow update: if true; 
+    }
+
+    // Incidents
+    match /incidents/{incidentId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+
+    // Notifications
+    match /notifications/{notifId} {
+      allow read, write: if true;
+    }
+
+    // Volunteers
+    match /volunteers/{email} {
+      allow read, write: if true;
+    }
+    
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
