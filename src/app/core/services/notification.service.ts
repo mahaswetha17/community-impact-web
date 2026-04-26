@@ -100,15 +100,12 @@ export class NotificationService {
       title: '🚨 Volunteer Assigned to Your Report',
       message: `${volunteerName} has been assigned to your incident "${incidentTitle}" and is on their way to you.`,
       incidentId,
-      volunteerName
-    });
-
-    // EmailJS alert (free tier — configure in environment.ts)
-    this._sendEmailAlert(victimId, {
-      subject: 'Community Impact — Volunteer Assigned',
-      body: `Dear User,\n\nGood news! A volunteer (${volunteerName}) has been assigned to your emergency report: "${incidentTitle}".\n\nThey are on their way. Stay safe.\n\n— Community Impact Team`
     });
   }
+
+
+
+
 
   // ── Convenience: notify victim that incident is resolved ──
   async notifyIncidentResolved(
@@ -124,12 +121,11 @@ export class NotificationService {
       incidentId,
       volunteerName
     });
-
-    this._sendEmailAlert(victimId, {
-      subject: 'Community Impact — Incident Resolved',
-      body: `Dear User,\n\nYour emergency report "${incidentTitle}" has been resolved by volunteer ${volunteerName}.\n\nPlease rate your experience in the Community Impact app.\n\n— Community Impact Team`
-    });
   }
+
+
+
+
 
   // ── Mark all notifications read ──────────────────────────
   async markAllRead(userId: string): Promise<void> {
@@ -159,37 +155,5 @@ export class NotificationService {
     }
   }
 
-  // ── EmailJS client-side email alert ───────────────────────
-  // Requires EmailJS account (free) — set keys in environment.ts:
-  //   emailjs: { serviceId, templateId, publicKey }
-  private _sendEmailAlert(toEmail: string, content: { subject: string; body: string }): void {
-    const ejs = (environment as any).emailjs;
-    if (!ejs?.serviceId || !ejs?.templateId || !ejs?.publicKey) {
-      // EmailJS not configured — skip silently
-      console.log('[Notify] EmailJS not configured — skipping email to', toEmail);
-      return;
-    }
 
-    // Dynamically load EmailJS SDK if not already loaded
-    const sendViaEmailJS = () => {
-      const emailjs = (window as any).emailjs;
-      if (!emailjs) return;
-      emailjs.send(ejs.serviceId, ejs.templateId, {
-        to_email: toEmail,
-        subject: content.subject,
-        message: content.body
-      }, ejs.publicKey)
-        .then(() => console.log('[Notify] Email sent to', toEmail))
-        .catch((e: any) => console.warn('[Notify] Email failed:', e));
-    };
-
-    if ((window as any).emailjs) {
-      sendViaEmailJS();
-    } else {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-      script.onload = sendViaEmailJS;
-      document.head.appendChild(script);
-    }
-  }
 }

@@ -30,7 +30,14 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <!-- Google Maps -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
+  <script>
+    (function () {
+      const key = (window.__env && window.__env.GOOGLE_MAPS_API_KEY) || 'YOUR_GOOGLE_MAPS_API_KEY';
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${key}`;
+      document.head.appendChild(script);
+    })();
+  </script>
 
   <style>
     * {
