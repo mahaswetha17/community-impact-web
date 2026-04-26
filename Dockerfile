@@ -8,7 +8,10 @@ RUN npm run build --configuration=production
 
 # Step 2: Serve the app using Nginx
 FROM nginx:alpine
-# Change the line below: removed "/browser"
 COPY --from=build /app/dist/community-impact-web /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+# This part is crucial for Cloud Run:
+# 1. We EXPOSE 8080 (the default Cloud Run port)
+# 2. we use 'sed' to update the Nginx default config to listen on $PORT
+EXPOSE 8080
+CMD ["sh", "-c", "sed -i 's/listen[[:space:]]*80;/listen '\"$PORT\"';/g' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
