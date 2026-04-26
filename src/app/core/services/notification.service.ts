@@ -54,7 +54,7 @@ export class NotificationService {
         colRef,
         (snap: QuerySnapshot<DocumentData>) => {
           const notifs: AppNotification[] = [];
-          snap.forEach((d: DocumentData) => {
+          snap.forEach((d: any) => {
             const n = d.data() as AppNotification;
             if (n.userId === userId) notifs.push(n);
           });

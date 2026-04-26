@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AssignmentHistory } from '../../models/incident.model';
 
 export interface VolunteerProfile {
   id: string;
@@ -10,6 +11,7 @@ export interface VolunteerProfile {
   skills?: string;
   registeredAt: string;
   status: 'available' | 'assigned' | 'offline';
+  missionHistory?: AssignmentHistory[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -77,5 +79,21 @@ export class VolunteerService {
 
   getVolunteerByEmail(email: string): VolunteerProfile | undefined {
     return this.volunteersSubject.value.find(v => v.email === email);
+  }
+
+  getVolunteerById(id: string): VolunteerProfile | undefined {
+    return this.volunteersSubject.value.find(v => v.id === id);
+  }
+
+  addMissionToHistory(volunteerId: string, entry: AssignmentHistory): void {
+    const updated = this.volunteersSubject.value.map(v => {
+      if (v.id === volunteerId) {
+        const history = v.missionHistory || [];
+        return { ...v, missionHistory: [...history, entry], status: 'assigned' as const };
+      }
+      return v;
+    });
+    this.volunteersSubject.next(updated);
+    this.saveToStorage(updated);
   }
 }

@@ -34,7 +34,7 @@ export class IncidentService implements OnDestroy {
       colRef,
       (snap: QuerySnapshot<DocumentData>) => {
         const list: Incident[] = [];
-        snap.forEach((d: DocumentData) => list.push(d.data() as Incident));
+        snap.forEach((d: any) => list.push(d.data() as Incident));
         list.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
         this.incidentsSubject.next(list);
       },
@@ -105,7 +105,7 @@ export class IncidentService implements OnDestroy {
     if (incident?.volunteerId) {
       const vol = this.volunteerService.getVolunteerById(incident.volunteerId);
       if (vol?.missionHistory) {
-        const updatedHistory = vol.missionHistory.map(h =>
+        const updatedHistory = vol.missionHistory.map((h: any) =>
           h.incidentId === incidentId ? { ...h, status: 'completed' as const, completedAt } : h
         );
         await this.volunteerService.updateVolunteerProfile(vol.email, { missionHistory: updatedHistory, status: 'available' });

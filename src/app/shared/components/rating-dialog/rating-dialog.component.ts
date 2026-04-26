@@ -39,7 +39,7 @@ export class RatingDialogComponent {
       await this.incidentService.addReview(this.data.incidentId, {
         rating: this.selectedRating,
         comment: this.comment.trim(),
-        reviewerId: this.authService.getUserId(),
+        victimId: this.authService.getUserId(),
         createdAt: new Date().toISOString()
       });
       this.snackBar.open('✅ Thank you for your feedback!', 'OK', { duration: 3000 });
