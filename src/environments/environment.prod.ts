@@ -10,6 +10,12 @@ export const environment = {
     messagingSenderId: "253828608932",
     appId: "1:253828608932:web:9f8824ed7f328d5217c731",
     measurementId: "G-J98N9JCTLD"
+  },
+  emailjs: {
+    serviceId: 'YOUR_EMAILJS_SERVICE_ID',
+    templateId: 'YOUR_EMAILJS_TEMPLATE_ID',
+    publicKey: 'YOUR_EMAILJS_PUBLIC_KEY'
   }
 };
+
 
